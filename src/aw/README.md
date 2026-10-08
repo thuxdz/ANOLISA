@@ -70,3 +70,5 @@ leave cosh, desktop clients and Herdr independent of the service implementation.
   [bounded command execution](docs/design/bounded-execution.md)
 - [Core execution and storage](docs/design/core-execution.md)
 - [Development setup, crate boundaries and tests](CONTRIBUTING.md)
+
+Connect sec-core scanning through `aw-provider-sec-core`; see the [Provider guide](../../docs/user-guide/en/user-entrypoint/aw-sec-core.md).

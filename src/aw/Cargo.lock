@@ -101,6 +101,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "aw-provider-sec-core"
+version = "0.1.0"
+dependencies = [
+ "aw-exec",
+ "aw-provider",
+ "libc",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
 name = "aw-service"
 version = "0.1.0"
 dependencies = [

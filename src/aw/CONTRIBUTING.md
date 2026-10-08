@@ -49,6 +49,7 @@ the pinned Rust toolchain. Local validation also uses Linux ARM64.
 | `aw-exec` | Bounded Linux command transport and owned process-group cleanup; independent of Provider protocols |
 | `aw-host` | Compose configuration, Provider admission and bounded transport into local preparation and invocation; depends on `aw-config`, `aw-provider` and `aw-exec` |
 | `aw-service` | Standalone service, reusable client and native launcher; uses `aw-host` for Hook execution, `aw-exec` for foreground ownership and `aw-core` Journal for metadata |
+| `aw-provider-sec-core` | Concrete Provider binary; calls public sec-core CLI through `aw-exec`, with no sec-core crate dependency |
 
 Keep native framework integration outside these libraries and service; process execution belongs in `aw-exec`.
 Keep Provider message parsing and offline admission in `aw-provider`; `aw-host`
@@ -92,6 +93,7 @@ For focused Provider Host checks, run from `src/aw` on Linux:
 
 ```bash
 cargo test --locked -p aw-host
+cargo test --locked -p aw-provider-sec-core
 ```
 
 These tests use local fixture processes to check preparation, request binding,

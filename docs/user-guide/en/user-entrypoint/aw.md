@@ -222,3 +222,5 @@ resuming or replaying old events.
 The [configuration reference](../../../developer-guide/en/aw/configuration.md)
 covers every field and event name. The [local service contract](../../../../src/aw/docs/design/local-service.md)
 describes operation JSON, deadlines and lifecycle for Adapter developers.
+
+Connect sec-core scanning through `aw-provider-sec-core`; see the [Provider guide](aw-sec-core.md).

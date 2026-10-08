@@ -63,3 +63,5 @@ target/debug/aw stop --config crates/aw-service/examples/aw.qoder.yaml
   [有界命令执行](docs/design/bounded-execution_zh.md)
 - [Core 执行与存储](docs/design/core-execution_zh.md)
 - [开发环境、Crate 职责与测试](CONTRIBUTING_zh.md)
+
+sec-core 扫描通过独立的 `aw-provider-sec-core` 接入，见[配置与使用](../../docs/user-guide/zh/user-entrypoint/aw-sec-core.md)。

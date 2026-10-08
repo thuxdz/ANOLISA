@@ -192,3 +192,5 @@ rm -r -- "$AW_DEMO_ROOT"
 [配置参考](../../../developer-guide/zh/aw/configuration.md)列出完整字段和事件名。
 [本地服务合同](../../../../src/aw/docs/design/local-service_zh.md)面向 Adapter 开发者，
 说明操作 JSON、截止时间和生命周期。
+
+sec-core 扫描通过独立的 `aw-provider-sec-core` 接入，见[配置与使用](aw-sec-core.md)。
