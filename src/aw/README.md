@@ -8,6 +8,8 @@ and keeps execution metadata independently of the Agent session. Users retain
 Qoder's terminal interface and native Hook scheduling. QwenPaw, OpenClaw and
 Hermes adapters remain planned; the current interfaces are experimental.
 
+Prebuilt AW + sec-core: [Preview installation and demo](../../docs/user-guide/en/user-entrypoint/aw-preview.md).
+
 ## Available today
 
 | Capability | Availability |

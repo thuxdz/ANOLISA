@@ -7,6 +7,8 @@ AW 为 Agent 策略提供统一配置和本地服务。在 Linux 上，它可以
 用户继续使用 Qoder 的终端界面和原生 Hook 调度。QwenPaw、OpenClaw 和 Hermes
 Adapter 仍待交付，当前接口处于实验阶段。
 
+AW + sec-core 预编译产物：[Preview 安装与演示](../../docs/user-guide/zh/user-entrypoint/aw-preview.md)。
+
 ## 当前可用范围
 
 | 能力 | 可用状态 |

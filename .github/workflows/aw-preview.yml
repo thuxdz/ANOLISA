@@ -1,0 +1,85 @@
+name: CI / AW Packages
+
+on:
+  pull_request:
+    paths:
+      - 'src/aw/packaging/**'
+      - '.github/workflows/aw-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aw-preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  packages:
+    name: AW / Package install tests
+    runs-on: >-
+      ${{ github.repository == 'agentic-os-org/ANOLISA' &&
+      'anolisa-k8s-general-ci-x64' || 'ubuntu-24.04' }}
+    container: ubuntu:24.04
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Install build prerequisites
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends build-essential ca-certificates \
+            curl git python3 pkg-config libssl-dev
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.97.1'
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            src/aw
+            src/agent-sec-core/v2
+      - name: Test installer and build the three artifacts
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          python3 -B src/aw/packaging/preview/test_install.py
+          python3 -B src/aw/packaging/preview/build.py --version 0.1.0-preview.1 \
+            --output src/aw/target/preview/packages
+      - name: Verify installed packages and service lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd src/aw/target/preview/packages
+          sha256sum -c SHA256SUMS
+          for archive in *.tar.gz; do tar -xzf "$archive"; done
+          root="$(dirname "$PWD")"
+          chmod 700 "$root"
+          runtime="$(mktemp -d /tmp/aw-preview.XXXXXX)"
+          trap 'mkdir -p "$root/demo"; cp -a "$runtime/demo/." "$root/demo/" 2>/dev/null || true; rm -rf "$runtime"' EXIT
+          python3 aw-core-*/install.py install --prefix "$root/split"
+          python3 aw-provider-sec-core-*/install.py install --prefix "$root/split"
+          python3 aw-all-in-one-*/install.py install --prefix "$root/combined"
+          diff -r "$root/split/.aw-packages" "$root/combined/.aw-packages"
+          umask 0002
+          PATH=/usr/bin:/bin timeout 180 python3 aw-all-in-one-*/demo.py \
+            --prefix "$root/combined" --work-dir "$runtime/demo"
+          python3 aw-all-in-one-*/install.py uninstall --prefix "$root/combined"
+          test -f "$runtime/demo/result.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aw-preview-linux-x86_64-${{ github.sha }}
+          path: |
+            src/aw/target/preview/packages/*.tar.gz
+            src/aw/target/preview/packages/SHA256SUMS
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aw-preview-evidence-${{ github.sha }}
+          path: |
+            src/aw/target/preview/demo/result.json
+            src/aw/target/preview/demo/*.log
+          if-no-files-found: ignore

@@ -244,6 +244,7 @@ def check() -> None:
     actual = candidate()
     selftest()
     run(["cargo", "fmt", "--all", "--", "--check"], AW)
+    run([sys.executable, "-B", "packaging/preview/test_install.py"], AW, timeout=60)
     structure(
         json.loads(
             run(

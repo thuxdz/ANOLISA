@@ -25,13 +25,18 @@ Keep Qoder's existing login and model settings.
 | Keep a shared service and persistent execution metadata | ✅ On-demand or externally started service |
 | Start QwenPaw, OpenClaw or Hermes | ❌ Adapters pending; QwenPaw is distinct from Qwen Code |
 | Use other events, portable `ask`, result replacement or OS enforcement | ❌ Not admitted by the current structured Provider path |
-| Install a published AW package or generate a default configuration | ❌ Copy the example manually |
+| Install a Preview package and generate a Qoder/sec-core configuration | ✅ [Preview guide](aw-preview.md); not a stable release |
 
 `tool.after` currently maps to successful `PostToolUse` callbacks. Qoder's
 `PostToolUseFailure` is a separate event and is not connected in this adapter.
 Native Hook commands remain subject to Qoder's own response semantics. Passing
 through a native approval response does not establish portable AW approval
 support; interactive approval is not part of this delivery's acceptance.
+
+## Install a Preview
+
+Use the [Preview packages](aw-preview.md) for a prebuilt AW + sec-core demo.
+The source instructions below are for developers.
 
 ## Build and start Qoder
 
